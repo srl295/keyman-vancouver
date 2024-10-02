@@ -1,0 +1,38 @@
+{
+  "private": true,
+  "name": "@keymanapp/vancouver",
+  "version": "1.0.0",
+  "description": "Experimental Keyboard editing platform",
+  "keywords": [
+    "keyman",
+    "ldml",
+    "unicode",
+    "keyboard"
+  ],
+  "author": "Steven R. Loomis <srl295@codehivetx.us>",
+  "license": "MIT",
+  "dependencies": {
+    "@theia/callhierarchy": "latest",
+    "@theia/file-search": "latest",
+    "@theia/git": "latest",
+    "@theia/markers": "latest",
+    "@theia/messages": "latest",
+    "@theia/mini-browser": "latest",
+    "@theia/navigator": "latest",
+    "@theia/outline-view": "latest",
+    "@theia/plugin-ext-vscode": "latest",
+    "@theia/preferences": "latest",
+    "@theia/preview": "latest",
+    "@theia/search-in-workspace": "latest",
+    "@theia/terminal": "latest"
+  },
+  "devDependencies": {
+    "@theia/cli": "latest"
+  },
+  "scripts": {
+    "build": "theia build",
+    "start": "theia start",
+    "prepare": "theia clean && theia build",
+    "clean": "theia clean"
+  }
+}
