@@ -30,7 +30,18 @@
     "watch": "yarn rebuild && theia build --watch --mode development"
   },
   "theia": {
-    "target": "electron"
-  },
-  "theia.frontend.config.applicationName": "Keyman Developer Vancouver"
+    "target": "electron",
+    "frontend": {
+      "config": {
+        "applicationName": "Keyman Developer Vancouver",
+        "electron": {
+          "splashScreenOptions": {
+            "content": "resources/KeymanVancouverSplash.svg",
+            "height": 533,
+            "width": 752
+          }
+        }
+      }
+    }
+  }
 }
