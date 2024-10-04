@@ -34,7 +34,6 @@ Open http://localhost:3000 in the browser.
 
 *or:* launch `Start Electron Backend` configuration from VS code.
 
-
 ## Developing with the browser example
 
 Start watching all packages, including `browser-app`, of your application with
@@ -69,16 +68,6 @@ and the Electron example.
     yarn watch
 
 Run the example as [described above](#Running-the-Electron-example)
-
-## Publishing keyman-vancouver
-
-Create a npm user and login to the npm registry, [more on npm publishing](https://docs.npmjs.com/getting-started/publishing-npm-packages).
-
-    npm login
-
-Publish packages with lerna to update versions properly across local packages, [more on publishing with lerna](https://github.com/lerna/lerna#publish).
-
-    npx lerna publish
 
 ## License
 
