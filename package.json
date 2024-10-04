@@ -1,38 +1,25 @@
 {
-  "private": true,
-  "name": "@keymanapp/vancouver",
-  "version": "1.0.0",
-  "description": "Experimental Keyboard editing platform",
-  "keywords": [
-    "keyman",
-    "ldml",
-    "unicode",
-    "keyboard"
-  ],
-  "author": "Steven R. Loomis <srl295@codehivetx.us>",
+  "name": "@keymanapp/keyman-vancouver-root",
   "license": "MIT",
-  "dependencies": {
-    "@theia/callhierarchy": "latest",
-    "@theia/file-search": "latest",
-    "@theia/git": "latest",
-    "@theia/markers": "latest",
-    "@theia/messages": "latest",
-    "@theia/mini-browser": "latest",
-    "@theia/navigator": "latest",
-    "@theia/outline-view": "latest",
-    "@theia/plugin-ext-vscode": "latest",
-    "@theia/preferences": "latest",
-    "@theia/preview": "latest",
-    "@theia/search-in-workspace": "latest",
-    "@theia/terminal": "latest"
-  },
-  "devDependencies": {
-    "@theia/cli": "latest"
+  "private": true,
+  "engines": {
+    "yarn": ">=1.7.0 <2",
+    "node": ">=16"
   },
   "scripts": {
-    "build": "theia build",
-    "start": "theia start",
-    "prepare": "theia clean && theia build",
-    "clean": "theia clean"
-  }
+    "build:browser": "yarn --cwd browser-app bundle",
+    "build:electron": "yarn --cwd electron-app bundle",
+    "prepare": "lerna run prepare",
+    "postinstall": "theia check:theia-version",
+    "start:browser": "yarn --cwd browser-app start",
+    "start:electron": "yarn --cwd electron-app start",
+    "watch:browser": "lerna run --parallel watch --ignore electron-app",
+    "watch:electron": "lerna run --parallel watch --ignore browser-app"
+  },
+  "devDependencies": {
+    "lerna": "2.4.0"
+  },
+  "workspaces": [
+    "keyman-vancouver", "browser-app", "electron-app"
+  ]
 }

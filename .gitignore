@@ -1,6 +1,6 @@
-/node_modules
-/src-gen
-/gen-webpack*
-/lib
-# for now
-/webpack.config.js
+node_modules
+.browser_modules
+lib
+*.log
+*-app/*
+!*-app/package.json
