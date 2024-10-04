@@ -34,6 +34,11 @@ Open http://localhost:3000 in the browser.
 
 *or:* launch `Start Electron Backend` configuration from VS code.
 
+
+## Packaging Electron
+
+    yarn package:electron
+
 ## Developing with the browser example
 
 Start watching all packages, including `browser-app`, of your application with
