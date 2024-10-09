@@ -11,6 +11,7 @@
     "@theia/editor": "latest",
     "@theia/electron": "latest",
     "@theia/filesystem": "latest",
+    "@theia/getting-started": "^1.54.0",
     "@theia/markers": "latest",
     "@theia/messages": "latest",
     "@theia/monaco": "latest",
