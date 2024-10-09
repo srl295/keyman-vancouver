@@ -6,7 +6,7 @@
     "@theia/core": "latest",
     "@theia/editor": "latest",
     "@theia/filesystem": "latest",
-    "@theia/getting-started": "^1.54.0",
+    "@theia/getting-started": "latest",
     "@theia/markers": "latest",
     "@theia/messages": "latest",
     "@theia/monaco": "latest",
@@ -21,10 +21,10 @@
     "@theia/cli": "latest"
   },
   "scripts": {
-    "bundle": "yarn rebuild && theia build --mode development",
+    "bundle": "npm run rebuild && theia build --mode development",
     "rebuild": "theia rebuild:browser --cacheRoot ..",
     "start": "theia start",
-    "watch": "yarn rebuild && theia build --watch --mode development"
+    "watch": "npm run rebuild && theia build --watch --mode development"
   },
   "theia": {
     "target": "browser"

@@ -3,19 +3,18 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "yarn": ">=1.7.0 <2",
     "node": ">=16"
   },
   "scripts": {
-    "build:browser": "yarn --cwd browser-app bundle",
-    "build:electron": "yarn --cwd electron-app bundle",
+    "build:browser": "cd browser-app ; npm run bundle",
+    "build:electron": "cd electron-app ; npm run bundle",
     "prepare": "lerna run prepare",
     "postinstall": "theia check:theia-version",
-    "start:browser": "yarn --cwd browser-app start",
-    "start:electron": "yarn --cwd electron-app start",
+    "start:browser": "cd browser-app ; npm run start",
+    "start:electron": "cd electron-app ; npm run start",
     "watch:browser": "lerna run --parallel watch --ignore electron-app",
     "watch:electron": "lerna run --parallel watch --ignore browser-app",
-    "package:electron": "yarn --cwd electron-app package"
+    "package:electron": "cd electron-app ; npm run package"
   },
   "devDependencies": {
     "lerna": "2.4.0"
