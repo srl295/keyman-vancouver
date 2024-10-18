@@ -21,6 +21,7 @@
   },
   "workspaces": [
     "keyman-vancouver",
+    "extensions/keyman-kpj",
     "browser-app",
     "electron-app"
   ],
