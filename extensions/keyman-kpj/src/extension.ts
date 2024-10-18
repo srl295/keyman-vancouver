@@ -40,6 +40,65 @@ async function getKpjTasks(): Promise<vscode.Task[]> {
 }
 let kpjTaskProvider : vscode.Disposable | undefined;
 
+class KpjBuildTerminal implements vscode.Pseudoterminal {
+	private writeEmitter = new vscode.EventEmitter<string>();
+	onDidWrite: vscode.Event<string> = this.writeEmitter.event;
+	private closeEmitter = new vscode.EventEmitter<number>();
+	onDidClose?: vscode.Event<number> = this.closeEmitter.event;
+
+	private fileWatcher: vscode.FileSystemWatcher | undefined;
+
+	constructor(private workspaceRoot: string, private flavor: string, private flags: string[], private getSharedState: () => string | undefined, private setSharedState: (state: string) => void) {
+	}
+
+	open(initialDimensions: vscode.TerminalDimensions | undefined): void {
+		// At this point we can start using the terminal.
+		if (this.flags.indexOf('watch') > -1) {
+			const pattern = path.join(this.workspaceRoot, 'customBuildFile');
+			this.fileWatcher = vscode.workspace.createFileSystemWatcher(pattern);
+			this.fileWatcher.onDidChange(() => this.doBuild());
+			this.fileWatcher.onDidCreate(() => this.doBuild());
+			this.fileWatcher.onDidDelete(() => this.doBuild());
+		}
+		this.doBuild();
+	}
+
+
+	close(): void {
+		// The terminal has been closed. Shutdown the build.
+		if (this.fileWatcher) {
+			this.fileWatcher.dispose();
+		}
+	}
+
+	private async doBuild(): Promise<void> {
+		return new Promise<void>((resolve) => {
+			this.writeEmitter.fire('Starting build...\r\n');
+			let isIncremental = this.flags.indexOf('incremental') > -1;
+			if (isIncremental) {
+				if (this.getSharedState()) {
+					this.writeEmitter.fire('Using last build results: ' + this.getSharedState() + '\r\n');
+				} else {
+					isIncremental = false;
+					this.writeEmitter.fire('No result from last build. Doing full build.\r\n');
+				}
+			}
+
+			// Since we don't actually build anything in this example set a timeout instead.
+			setTimeout(() => {
+				const date = new Date();
+				this.setSharedState(date.toTimeString() + ' ' + date.toDateString());
+				this.writeEmitter.fire('Build complete.\r\n\r\n');
+				if (this.flags.indexOf('watch') === -1) {
+					this.closeEmitter.fire(0);
+					resolve();
+				}
+			}, isIncremental ? 1000 : 4000);
+		});
+	}
+}
+
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -59,7 +118,13 @@ export function activate(context: vscode.ExtensionContext) {
 	// 	console.log(`Active terminal changed, name=${e ? e.name : 'undefined'}`);
 	// });
 
+	let sharedState : string | undefined = undefined; // TODO should be class scoped on the TaskProvider
+
+
 	kpjTaskProvider = vscode.tasks.registerTaskProvider('kpj', {
+
+		// TODO should be TaskProvider subclass
+
 		provideTasks() {
 			return (kpjPromise = kpjPromise ?? getKpjTasks());
 		},
@@ -72,7 +137,13 @@ export function activate(context: vscode.ExtensionContext) {
 					_task.scope ?? vscode.TaskScope.Workspace,
 					definition.type, // for now, se don't have another name to use
 					'kpj',
-					new vscode.ShellExecution(`npx -y @keymanapp/kmc build`) // nothing from the definition for now
+					new vscode.CustomExecution(
+						async (): Promise<vscode.Pseudoterminal> => {
+							return new KpjBuildTerminal("something", "something", ["something"], () => sharedState, (state: string) => sharedState = state);
+						}
+					)
+					// OLD: shell
+					// new vscode.ShellExecution(`npx -y @keymanapp/kmc build`) // nothing from the definition for now
 				);
 			}
 		}
