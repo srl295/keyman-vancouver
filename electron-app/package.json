@@ -18,6 +18,7 @@
     "@theia/navigator": "latest",
     "@theia/preferences": "latest",
     "@theia/process": "latest",
+    "@theia/task": "^1.54.0",
     "@theia/terminal": "latest",
     "@theia/workspace": "latest",
     "keyman-vancouver": "0.0.0"
