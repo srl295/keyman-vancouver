@@ -3,41 +3,38 @@
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 import * as vscode from 'vscode';
+import {declareBuild  } from '@keymanapp/kmc/build/src/commands/build.js';
+// import { CompilerOptions, CompilerCallbackOptions } from '@keymanapp/developer-utils';
+// import { NodeCompilerCallbacks } from '@keymanapp/kmc/build/src/util/NodeCompilerCallbacks';
 
 let kpjPromise: Thenable<vscode.Task[]> | undefined = undefined;
+
+async function buildProject(infile: string) : Promise<boolean> {
+	// const outfile = '';
+	// const coptions : CompilerCallbackOptions = {
+	// };
+	// const options : CompilerOptions = {
+	// };
+	// const callbacks = new NodeCompilerCallbacks(coptions);
+
+	// const resp = await (new BuildProject().build(
+	// 	infile,
+	// 	<string><unknown>undefined,
+	// 	callbacks,
+	// 	options
+	// ));
+
+	// // dump all
+	// callbacks.messages?.forEach(m => console.dir(m));
+	const resp = false;
+
+	return resp;
+}
 
 interface KpjTaskDefinition extends vscode.TaskDefinition {
 	// empty for now
 }
 
-async function getKpjTasks(): Promise<vscode.Task[]> {
-	const workspaceFolders = vscode.workspace.workspaceFolders;
-	const result: vscode.Task[] = [];
-	if (!workspaceFolders || workspaceFolders.length === 0) {
-		return result;
-	}
-	for (const workspaceFolder of workspaceFolders) {
-		const folderString = workspaceFolder.uri.fsPath;
-		if (!folderString) {
-			console.log(`Not folstr`);
-			continue;
-		}
-		const dir = path.basename(folderString);
-		const kpjFile = path.join(folderString, `${dir}.kpj`);
-		if (!existsSync(kpjFile)) {
-			console.log(`Not exist ${kpjFile}`);
-			continue;
-		} else {
-			console.log(`=> ${kpjFile}`);
-		}
-		const task = new vscode.Task({type: 'kpj'}, workspaceFolder, dir, 'kpj',
-				new vscode.ShellExecution(`npx -y @keymanapp/kmc build file ${kpjFile}`));
-		task.group = vscode.TaskGroup.Build;
-		console.dir({task});
-		result.push(task);
-	}
-	return result;
-}
 let kpjTaskProvider : vscode.Disposable | undefined;
 
 class KpjBuildTerminal implements vscode.Pseudoterminal {
@@ -98,6 +95,39 @@ class KpjBuildTerminal implements vscode.Pseudoterminal {
 	}
 }
 
+
+async function getKpjTasks(): Promise<vscode.Task[]> {
+	const workspaceFolders = vscode.workspace.workspaceFolders;
+	const result: vscode.Task[] = [];
+	console.log('Hulla');
+	if (!workspaceFolders || workspaceFolders.length === 0) {
+		console.log('H0ll0');
+		return result;
+	}
+	for (const workspaceFolder of workspaceFolders) {
+		const folderString = workspaceFolder.uri.fsPath;
+		if (!folderString) {
+			console.log(`Not folstr`);
+			continue;
+		}
+		const dir = path.basename(folderString);
+		const kpjFile = path.join(folderString, `${dir}.kpj`);
+		if (!existsSync(kpjFile)) {
+			console.log(`Not exist ${kpjFile}`);
+			continue;
+		} else {
+			console.log(`=> ${kpjFile}`);
+		}
+		const task = new vscode.Task({type: 'kpj'}, workspaceFolder, dir, 'kpj',
+				new vscode.CustomExecution(async (definition) => new KpjBuildTerminal('hallo', '', [], ()=>undefined, (state)=>undefined))
+				// new vscode.ShellExecution(`npx -y @keymanapp/kmc build file ${kpjFile}`)
+			);
+		task.group = vscode.TaskGroup.Build;
+		console.dir({task});
+		result.push(task);
+	}
+	return result;
+}
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
