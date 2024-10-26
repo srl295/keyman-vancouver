@@ -12,20 +12,23 @@
             "args": [
                 "--loglevel=debug",
                 "--port=3000",
-                "--no-cluster"
+                "--no-cluster",
+                "--plugins=local-dir:${workspaceRoot}/plugins"
             ],
             "env": {
                 "NODE_ENV": "development"
             },
             "sourceMaps": true,
-            "outFiles": [
-                "${workspaceRoot}/node_modules/@theia/*/lib/**/*.js",
-                "${workspaceRoot}/*/lib/**/*.js",
-                "${workspaceRoot}/browser-app/src-gen/**/*.js"
-            ],
+            // "outFiles": [
+            //     "${workspaceRoot}/node_modules/@theia/*/lib/**/*.js",
+            //     "${workspaceRoot}/*/lib/**/*.js",
+            //     "${workspaceRoot}/browser-app/src-gen/**/*.js"
+            // ],
             "smartStep": true,
             "internalConsoleOptions": "openOnSessionStart",
-            "outputCapture": "std"
+            "outputCapture": "std",
+            "runtimeExecutable": "/Users/srl295/.nvm/versions/node/v20.18.0/bin/node",
+            "autoAttachChildProcesses": true,
         },
         {
             "type": "node",

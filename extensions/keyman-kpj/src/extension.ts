@@ -1,9 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import path from 'node:path';
-import { existsSync } from 'node:fs';
+const {path} = require('node:path');
+const { existsSync } = require('node:fs');
 import * as vscode from 'vscode';
-import {declareBuild  } from '@keymanapp/kmc/build/src/commands/build.js';
+// import {declareBuild  } from '@keymanapp/kmc/build/src/commands/build.js';
 // import { CompilerOptions, CompilerCallbackOptions } from '@keymanapp/developer-utils';
 // import { NodeCompilerCallbacks } from '@keymanapp/kmc/build/src/util/NodeCompilerCallbacks';
 
@@ -99,23 +99,31 @@ class KpjBuildTerminal implements vscode.Pseudoterminal {
 async function getKpjTasks(): Promise<vscode.Task[]> {
 	const workspaceFolders = vscode.workspace.workspaceFolders;
 	const result: vscode.Task[] = [];
-	console.log('Hulla');
+	console.log('Hulla0');
+	// vscode.window.showInformationMessage('Hulla00');
 	if (!workspaceFolders || workspaceFolders.length === 0) {
 		console.log('H0ll0');
+		vscode.window.showInformationMessage('H0ll0!');
+
 		return result;
 	}
 	for (const workspaceFolder of workspaceFolders) {
 		const folderString = workspaceFolder.uri.fsPath;
 		if (!folderString) {
+			vscode.window.showInformationMessage('!folstr!');
+
 			console.log(`Not folstr`);
 			continue;
 		}
 		const dir = path.basename(folderString);
 		const kpjFile = path.join(folderString, `${dir}.kpj`);
 		if (!existsSync(kpjFile)) {
+			vscode.window.showInformationMessage(`not ${kpjFile}`);
+
 			console.log(`Not exist ${kpjFile}`);
 			continue;
 		} else {
+			vscode.window.showInformationMessage(`=> ${kpjFile}`);
 			console.log(`=> ${kpjFile}`);
 		}
 		const task = new vscode.Task({type: 'kpj'}, workspaceFolder, dir, 'kpj',
@@ -156,6 +164,9 @@ export function activate(context: vscode.ExtensionContext) {
 		// TODO should be TaskProvider subclass
 
 		provideTasks() {
+			vscode.window.showInformationMessage('GettinTasks!');
+
+			console.log("Gettin' tasks");
 			return (kpjPromise = kpjPromise ?? getKpjTasks());
 		},
 		resolveTask(_task: vscode.Task) : vscode.Task | undefined {
