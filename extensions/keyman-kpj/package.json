@@ -27,6 +27,18 @@
         "properties": {},
         "when": ""
       }
+    ],
+    "customEditors": [
+      {
+        "viewType": "keyman.ldml",
+        "displayName": "Keyman LDML",
+        "selector": [
+          {
+            "filenamePattern": "*.xml"
+          }
+        ],
+        "priority": "default"
+      }
     ]
   },
   "scripts": {

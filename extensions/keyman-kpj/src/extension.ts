@@ -3,6 +3,7 @@
 const {path} = require('node:path');
 const { existsSync } = require('node:fs');
 import * as vscode from 'vscode';
+import { LdmlEditorProvider } from './ldmleditor';
 // import {declareBuild  } from '@keymanapp/kmc/build/src/commands/build.js';
 // import { CompilerOptions, CompilerCallbackOptions } from '@keymanapp/developer-utils';
 // import { NodeCompilerCallbacks } from '@keymanapp/kmc/build/src/util/NodeCompilerCallbacks';
@@ -200,6 +201,9 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(disposable);
+
+	// LDML EDITOR STUFF
+	context.subscriptions.push(LdmlEditorProvider.register(context));
 }
 
 // This method is called when your extension is deactivated
