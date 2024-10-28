@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as crypto from 'crypto';
 
 interface LdmlDocumentDelegate {
 	getFileData(): Promise<Uint8Array>;
@@ -32,7 +33,7 @@ class LdmlDocument implements vscode.CustomDocument {
     }
 }
 
-export class LdmlEditorProvider implements vscode.CustomEditorProvider<LdmlDocument> {
+export class LdmlEditorProvider implements vscode.CustomTextEditorProvider {
     private static readonly viewType = 'keyman.ldml'; // sync w/ package.json
 
     constructor(private readonly context: vscode.ExtensionContext) { }
@@ -86,9 +87,62 @@ export class LdmlEditorProvider implements vscode.CustomEditorProvider<LdmlDocum
         return document;
 
     }
-    async resolveCustomEditor(document: LdmlDocument, webviewPanel: vscode.WebviewPanel, token: vscode.CancellationToken): Promise<void> {
-        webviewPanel.webview.html = `
-            <h1>Hello, World!</h1>
-        `;
+    async resolveCustomTextEditor(document: vscode.TextDocument, webviewPanel: vscode.WebviewPanel, token: vscode.CancellationToken): Promise<void> {
+        webviewPanel.webview.options = {
+			enableScripts: true,
+		};
+
+        const { webview } = webviewPanel;
+
+        const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this.context.extensionUri, 'media', 'ldml.css'));
+
+        const nonce = crypto.randomUUID().toString();
+
+        webview.html = `
+            <!DOCTYPE html>
+			<html lang="en">
+			<head>
+				<meta charset="UTF-8">
+
+
+				<!--
+				Use a content security policy to only allow loading images from https or from our extension directory,
+				and only allow scripts that have a specific nonce.
+				-->
+				<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src ${webview.cspSource}; style-src ${webview.cspSource}; script-src 'nonce-${nonce}';">
+
+                <link href="${styleMainUri}" rel="stylesheet" />
+
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+                <title>LDML</title>
+            </head>
+            <body>
+                <h1>Hello, World!</h1>
+            </body>
+            </html>
+        `.trim();
+
+        function updateWebview() {
+			webviewPanel.webview.postMessage({
+				type: 'update',
+				text: document.getText(),
+			});
+		}
+
+		webviewPanel.webview.onDidReceiveMessage(e => {
+			switch (e.type) {
+				// case 'add':
+				// 	this.addNewScratch(document);
+				// 	return;
+
+				// case 'delete':
+				// 	this.deleteScratch(document, e.id);
+				// 	return;
+			}
+		});
+
+        updateWebview();
+
     }
 }
