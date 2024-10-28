@@ -13,7 +13,9 @@
                 "--loglevel=debug",
                 "--port=3000",
                 "--no-cluster",
-                "--plugins=local-dir:${workspaceRoot}/plugins"
+                "--plugins=local-dir:${workspaceRoot}/plugins",
+                "--hostname=0.0.0.0",
+                "--ignore-certificate-errors",
             ],
             "env": {
                 "NODE_ENV": "development"
