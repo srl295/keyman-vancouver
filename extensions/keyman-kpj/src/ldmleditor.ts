@@ -118,7 +118,8 @@ export class LdmlEditorProvider implements vscode.CustomTextEditorProvider {
                 <title>LDML</title>
             </head>
             <body>
-                <h1>Hello, World!</h1>
+                <h1>Hello, World! </h1>
+                <pre>${document.getText().replaceAll('<', '&lt;').trim()}</pre>
             </body>
             </html>
         `.trim();
