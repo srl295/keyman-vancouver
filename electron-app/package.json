@@ -33,7 +33,7 @@
     "bundle": "npm run rebuild && theia build --mode development --plugins=local-dir:../plugins",
     "rebuild": "theia rebuild:electron --cacheRoot .. --plugins=local-dir:../plugins",
     "start": "theia start --plugins=local-dir:../plugins",
-    "watch": "npm run rebuild && theia build --watch --mode development --plugins=local-dir:../plugins",
+    "watch": "npm run rebuild && theia build --watch --mode development",
     "package": "npx electron-builder -c.mac.identity=null --publish never"
   },
   "theia": {

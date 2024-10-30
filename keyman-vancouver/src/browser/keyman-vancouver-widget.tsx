@@ -3,13 +3,13 @@ import { ReactWidget } from "@theia/core/lib/browser";
 import { inject, injectable, postConstruct } from "@theia/core/shared/inversify";
 import { ReactNode } from 'react';
 import React = require("react");
-
 @injectable()
 export class KeymanVancouverGettingStarted extends ReactWidget {
     static readonly ID = 'KeymanVancouver.GettingStartedWidget';
     static readonly LABEL = 'Getting Started with Keyman Vancouver';
+
     @postConstruct()
-    protected async init(): Promise <void> {
+    protected init(): void {
         this.id = KeymanVancouverGettingStarted.ID;
         this.title.caption = this.title.label = KeymanVancouverGettingStarted.LABEL;
         this.title.closable = true;
