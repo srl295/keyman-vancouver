@@ -8,6 +8,9 @@ import { KeymanVancouverGettingStarted } from './keyman-vancouver-widget';
 import { WidgetFactory } from '@theia/core/lib/browser';
 import { GettingStartedWidget } from '@theia/getting-started/lib/browser/getting-started-widget';
 
+
+import '../../src/browser/style/vancouver.css';
+
 export default new ContainerModule(bind => {
     // add your contribution bindings here
     bind(CommandContribution).to(KeymanVancouverCommandContribution);

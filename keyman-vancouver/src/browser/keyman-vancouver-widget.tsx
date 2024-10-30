@@ -1,4 +1,4 @@
-import { MessageService } from "@theia/core";
+import { CommandService, MessageService } from "@theia/core";
 import { ReactWidget } from "@theia/core/lib/browser";
 import { inject, injectable, postConstruct } from "@theia/core/shared/inversify";
 import { ReactNode } from 'react';
@@ -18,19 +18,34 @@ export class KeymanVancouverGettingStarted extends ReactWidget {
     }
 
     protected render(): ReactNode {
-        const header = `Just testing here`;
+        const header = KeymanVancouverGettingStarted.LABEL;
         return <div id='widget-container'>
-            <i>{header}</i>
+            <h1>{header}</h1>
+
+            <div className="vancouver-splash">&nbsp;</div>
+
+            <h2>Get Started!</h2>
+            <p>
+                It's time to get started… let's create or open a project.
+            </p>
+
                 {/* <AlertMessage type='INFO' header={header} /> */}
-                <button className='theia-button secondary' title='Display Message' onClick={_a => this.displayMessage()}>Display Message</button>
+                <button className='theia-button secondary' title='Open Project…' onClick={_a => this.openProject()}>Open Project</button>
           </div>
     }
+
+    @inject(CommandService)
+    protected readonly commandService!: CommandService;
+
 
     @inject(MessageService)
     protected readonly messageService!: MessageService;
 
-    protected displayMessage(): void {
-        this.messageService.info(`Congrats, MyWiget OK!`);
+    protected openProject(): void {
+        this.commandService.executeCommand("workbench.action.files.openFolder");
     }
+    // protected openRecent(): void {
+    //     this.commandService.executeCommand("workbench.action.files.openRecent");
+    // }
 
 };
