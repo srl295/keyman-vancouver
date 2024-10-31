@@ -1,3 +1,7 @@
+/*
+ * Keyman is copyright (C) SIL Global. MIT License.
+ */
+
 import { Command, CommandRegistry } from "@theia/core";
 import { AbstractViewContribution } from "@theia/core/lib/browser";
 import { KeymanVancouverGettingStarted } from "./keyman-vancouver-widget";

@@ -1,5 +1,7 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+/*
+ * Keyman is copyright (C) SIL Global. MIT License.
+ */
+
 const {path} = require('node:path');
 const { existsSync } = require('node:fs');
 import * as vscode from 'vscode';

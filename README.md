@@ -1,6 +1,6 @@
 # keyman-vancouver
 
-A playground for a possible future Keyman Developer application.
+A playground for Keyman Developer application.
 
 ## Getting started
 

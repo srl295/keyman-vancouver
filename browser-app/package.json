@@ -31,5 +31,6 @@
   },
   "theia": {
     "target": "browser"
-  }
+  },
+  "license": "MIT"
 }

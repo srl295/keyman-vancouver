@@ -63,5 +63,6 @@
   },
   "dependencies": {
     "@keymanapp/kmc": "^18.0.129-alpha"
-  }
+  },
+  "license": "MIT"
 }
